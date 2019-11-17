@@ -1,0 +1,17 @@
+version: '2.3'
+services:
+  yolov2:
+    image: youkis/pytorch-yolov2:latest
+    runtime: nvidia
+    ipc: host
+    volumes:
+      - ~/Lab/AIcontest_example/pytorch-yolov2/:/home/docker/yolo
+      - ~/.cache:/home/docker/.cache
+      - ~/.Xauthority:/home/docker/.Xauthority
+      - /work/$USER/datasets/selfdrive:/home/docker/yolo/data/selfdrive
+    network_mode: "host"
+    working_dir: "/home/docker/yolo"
+    environment:
+      - DISPLAY
+    user: docker:4000
+    command: /bin/bash
