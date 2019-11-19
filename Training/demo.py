@@ -84,7 +84,11 @@ def demo():
         im2show = draw_detection_boxes(img, det_boxes, det_classes, class_names=classes)
         plt.figure()
         plt.imshow(im2show)
-        plt.show()
+        #plt.show()
+
+        save_image_path = os.path.join(images_dir, image_name + "_detect.jpg")
+        print("save -> " + save_image_path)
+        plt.savefig(save_image_path)
 
 if __name__ == '__main__':
     demo()
