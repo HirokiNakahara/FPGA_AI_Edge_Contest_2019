@@ -191,9 +191,14 @@ def train():
                 box_loss_v = box_loss.mean().item()
                 class_loss_v = class_loss.mean().item()
 
-                print("[epoch %2d][step %4d/%4d] loss: %.4f, lr: %.2e, iou_loss: %.4f, box_loss: %.4f, cls_loss: %.4f" \
-                      % (epoch, step+1, iters_per_epoch, loss_temp, lr, iou_loss_v, box_loss_v, class_loss_v))
+                log = "[epoch %2d][step %4d/%4d] loss: %.4f, lr: %.2e, iou_loss: %.4f, box_loss: %.4f, cls_loss: %.4f" \
+                      % (epoch, step+1, iters_per_epoch, loss_temp, lr, iou_loss_v, box_loss_v, class_loss_v)
+                print(log)
 
+                logfile = os.path.join(output_dir, 'training_log.txt')
+                with open(logfile, 'a') as f:
+                    print(log, file=f)
+                
                 if args.use_tfboard:
 
                     n_iter = (epoch - 1) * iters_per_epoch + step + 1
