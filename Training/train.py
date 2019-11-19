@@ -160,7 +160,7 @@ def train():
             if cfg.multi_scale and (step + 1) % cfg.scale_step == 0:
                 scale_index = np.random.randint(*cfg.scale_range)
                 cfg.input_size = cfg.input_sizes[scale_index]
-                print('change input size {}'.format(cfg.input_size))
+                ##print('change input size {}'.format(cfg.input_size))
 
             im_data, boxes, gt_classes, num_obj = next(train_data_iter)
             if args.use_cuda:
