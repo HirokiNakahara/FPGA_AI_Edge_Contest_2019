@@ -32,7 +32,7 @@ def parse_args():
     parser.add_argument('--arch', default='alex', type=str)
     parser.add_argument('--max_epochs', dest='max_epochs',
                         help='number of epochs to train',
-                        default=160, type=int)
+                        default=100, type=int) # 160 -> 100
     parser.add_argument('--start_epoch', dest='start_epoch',
                         default=1, type=int)
     parser.add_argument('--nw', dest='num_workers',
@@ -43,7 +43,7 @@ def parse_args():
     parser.add_argument('--use_tfboard', dest='use_tfboard',
                         default=False, type=bool)
     parser.add_argument('--display_interval', dest='display_interval',
-                        default=10, type=int)
+                        default=100, type=int) # 10 -> 100
     parser.add_argument('--mGPUs', dest='mGPUs',
                         default=False, type=bool)
     parser.add_argument('--save_interval', dest='save_interval',
@@ -53,7 +53,7 @@ def parse_args():
     parser.add_argument('--resume', dest='resume',
                         default=False, type=bool)
     parser.add_argument('--checkpoint_epoch', dest='checkpoint_epoch',
-                        default=160, type=int)
+                        default=100, type=int) # 160 -> 100
     parser.add_argument('--exp_name', dest='exp_name',
                         default='default', type=str)
 
@@ -191,10 +191,8 @@ def train():
                 box_loss_v = box_loss.mean().item()
                 class_loss_v = class_loss.mean().item()
 
-                print("[epoch %2d][step %4d/%4d] loss: %.4f, lr: %.2e, time cost %.1fs" \
-                      % (epoch, step+1, iters_per_epoch, loss_temp, lr, toc - tic))
-                print("\t\t\tiou_loss: %.4f, box_loss: %.4f, cls_loss: %.4f" \
-                      % (iou_loss_v, box_loss_v, class_loss_v))
+                print("[epoch %2d][step %4d/%4d] loss: %.4f, lr: %.2e, iou_loss: %.4f, box_loss: %.4f, cls_loss: %.4f" \
+                      % (epoch, step+1, iters_per_epoch, loss_temp, lr, iou_loss_v, box_loss_v, class_loss_v))
 
                 if args.use_tfboard:
 
