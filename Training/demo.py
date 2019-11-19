@@ -72,7 +72,7 @@ def demo():
         yolo_output = model(im_data_variable)
         yolo_output = [item[0].data for item in yolo_output]
         detections = yolo_eval(yolo_output, im_info, conf_threshold=0.2, nms_threshold=0.4)
-        print(detections)
+        ##print(detections)
 
         toc = time.time()
         cost_time = toc - tic
