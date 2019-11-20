@@ -16,6 +16,7 @@ from util.network import WeightLoader
 from torch.utils.data import DataLoader
 from config import config as cfg
 
+import json
 
 def parse_args():
 
@@ -23,6 +24,7 @@ def parse_args():
     parser.add_argument('--arch', default='alex', type=str)
     parser.add_argument('--dataset', dest='dataset',
                         default='test', type=str)
+#                        default='trainval', type=str)
     parser.add_argument('--output_dir', dest='output_dir',
                         default='output', type=str)
     parser.add_argument('--model_name', dest='model_name',
@@ -112,6 +114,8 @@ def test():
 
     det_file = os.path.join(args.output_dir, 'detections.pkl')
 
+    results = []
+
     img_id = -1
     with torch.no_grad():
         for batch, (im_data, im_infos) in enumerate(val_dataloader):
@@ -139,6 +143,50 @@ def test():
                             cls_det[:, 4] = detections[inds, 4] * detections[inds, 5]
                             all_boxes[cls][img_id] = cls_det.cpu().numpy()
 
+
+                img = Image.open(val_imdb.image_path_at(img_id))
+                if len(detections) > 0:
+                    detect_result = {}
+
+                    boxes = detections[:, :5].cpu().numpy()
+                    classes = detections[:, -1].long().cpu().numpy()
+                    class_names = val_imdb.classes
+
+                    num_boxes = boxes.shape[0]
+
+                    labels = []
+
+                    for i in range(num_boxes):
+                        det_bbox = tuple(np.round(boxes[i, :4]).astype(np.int64))
+                        score = boxes[i, 4]
+                        gt_class_ind = classes[i]
+                        class_name = class_names[gt_class_ind]
+                        disp_str = '{}: {:.2f}'.format(class_name, score)
+
+                        bbox = tuple(np.round(boxes[i, :4]).astype(np.int64))
+
+                        xmin = bbox[0]
+                        ymin = bbox[1]
+                        xmax = bbox[2]
+                        ymax = bbox[3]
+
+                        box2d = {}
+                        box2d["x1"] = str(xmin)
+                        box2d["y1"] = str(ymin)
+                        box2d["x2"] = str(xmax)
+                        box2d["y2"] = str(ymax)
+
+                        bbox = {}
+                        bbox["box2d"] = box2d
+                        bbox["category"] = class_name
+
+                        labels.append(bbox)
+
+                    detect_result["ImageID"] = os.path.basename(val_imdb.image_path_at(img_id))
+                    detect_result["labels"] = labels
+
+                    results.append(detect_result)
+
                 if args.vis:
                     img = Image.open(val_imdb.image_path_at(img_id))
                     if len(detections) == 0:
@@ -153,6 +201,11 @@ def test():
             if img_id > 10:
                 break
 
+    print(results)
+    results_file = os.path.join(args.output_dir, 'detections.json')
+    with open(results_file, 'w') as f:
+        json.dump(results, f, ensure_ascii=False, indent=4, sort_keys=True, separators=(',', ': '))
+
     with open(det_file, 'wb') as f:
         pickle.dump(all_boxes, f, pickle.HIGHEST_PROTOCOL)
 
@@ -160,4 +213,3 @@ def test():
 
 if __name__ == '__main__':
     test()
-
