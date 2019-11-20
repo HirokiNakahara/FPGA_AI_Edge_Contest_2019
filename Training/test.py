@@ -198,8 +198,8 @@ def test():
                     plt.imshow(im2show)
                     plt.show()
 
-            if img_id > 10:
-                break
+            #if img_id > 10:
+            #    break
 
     print(results)
     results_file = os.path.join(args.output_dir, 'detections.json')
