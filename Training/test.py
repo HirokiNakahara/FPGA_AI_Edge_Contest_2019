@@ -22,7 +22,7 @@ def parse_args():
     parser = argparse.ArgumentParser('Yolo v2')
     parser.add_argument('--arch', default='alex', type=str)
     parser.add_argument('--dataset', dest='dataset',
-                        default='trainval', type=str)
+                        default='test', type=str)
     parser.add_argument('--output_dir', dest='output_dir',
                         default='output', type=str)
     parser.add_argument('--model_name', dest='model_name',
