@@ -1,7 +1,8 @@
 ## Yolov2 Pytorch Training Script
 ## Prerequisites
-- python 3.5.x (or more)
-- pytorch 0.4.1 (or more)
+- python 3.6.x (or more)
+- torch 1.4.0
+- torchvision 0.5.0
 - tensorboardX
 - opencv3
 - pillow
