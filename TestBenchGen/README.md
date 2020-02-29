@@ -20,7 +20,7 @@ https://drive.google.com/file/d/1xUznZs1YPh4XBPri9zcpfk2WTSlDhcVK/view?usp=shari
 
 (this repo directory)$ cp (Download directory)/yolov2_epoch_40.pth ./yolov2_alex_1/yolov2_epoch_40.pth
 
-### 2. make a symbolik link to a traning dataset directory
+### 2. make a symbolic link to a traning dataset directory
 
 (this repo directory)$ ln -s (path to your training dataset directory) data
 
