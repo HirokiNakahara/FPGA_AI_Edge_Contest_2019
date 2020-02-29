@@ -14,13 +14,14 @@ matplotlib
 1. Download Pre-trained model (or use your own trained model) and store to (your model path)
 https://drive.google.com/file/d/1xUznZs1YPh4XBPri9zcpfk2WTSlDhcVK/view?usp=sharing
 
-e.g. 
 (this repo directory)$ mkdir yolov2_alex_1
+
 (this repo directory)$ cp (Download directory)/yolov2_epoch_40.pth ./yolov2_alex_1/yolov2_epoch_40.pth
 
 2. make a symbolik link to a traning dataset directory
-e.g.
+
 (this repo directory)$ ln -s (path to your training dataset directory) data
 
 3. execute script as follows:
+
 (this repo directory)$ $ python gen_testbench.py --arch alex --dataset test --bs 1 --output_dir yolov2_alex_1 --model_name yolov2_epoch_40
