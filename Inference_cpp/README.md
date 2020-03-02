@@ -1,6 +1,6 @@
-### Inference smaple code (C++) for verification on your host PC
+## Inference smaple code (C++) for verification on your host PC
 
-If needed, download the following testbenches and parameters:
+### If needed, download the following testbenches and parameters:
 
 [testbench_input.txt](https://drive.google.com/file/d/1ZxLFnIwiiI1wtAJgFgS-EkaLeo_LRSJs/view?usp=sharing)
 
@@ -10,3 +10,14 @@ If needed, download the following testbenches and parameters:
 
 [bias_l0.txt](https://drive.google.com/file/d/1mlddRQZsLuJSxxzJX7Mxxbw0ve0JuaBI/view?usp=sharing)
 
+### Compile on your Host PC (Ubuntu OS)
+
+```
+$ g++ -O3 -o conv_l1 HW_kernel.cpp HW_main.cpp
+```
+
+Then,
+
+```
+$ ./conv_l1
+```
