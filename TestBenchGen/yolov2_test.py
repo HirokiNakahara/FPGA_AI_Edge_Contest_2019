@@ -46,6 +46,16 @@ class ReorgLayer(nn.Module):
         x = x.view(B, hs * ws * C, int(H / hs), int(W / ws))
         return x
 
+def array2header(ary, header='dummy'):
+    n = len(ary)
+    ret = "float %s[%d] = {" % (header,n)
+    for i, x in enumerate(ary):
+        if i != 0:
+            ret += ' '
+        ret += ', '.join(['{: .4f}'.format(x)])
+        ret += ','
+    ret += '};'
+    return ret
 
 class Yolov2(nn.Module):
 
@@ -107,6 +117,11 @@ class Yolov2(nn.Module):
                 print('Weight Paramter File -> %s' % fname)
                 np.savetxt(fname, param.reshape(-1,), fmt="%.4f", delimiter="")
 
+                headerfile = array2header( param.reshape(-1,), 'weight_l0')
+
+                with open('weight_l0.h', mode='w') as f:
+                    f.write( headerfile)
+
             if n == '0.bias':
                 param = p.detach().numpy()
                 print('bias',param)
@@ -114,6 +129,11 @@ class Yolov2(nn.Module):
                 print('Bias Paramter File -> %s' % fname)
                 np.savetxt(fname, param.reshape(-1,), fmt="%.4f", delimiter="")
 
+                headerfile = array2header( param.reshape(-1,), 'bias_l0')
+
+                with open('bias_l0.h', mode='w') as f:
+                    f.write( headerfile)
+                
         # ------------------------------------------------
         # Test(Inference) step-by-step manner
         #  and generate testbenches
